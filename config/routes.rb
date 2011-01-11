@@ -7,7 +7,6 @@ SampleApp::Application.routes.draw do
   end
   
   resources :sessions,      :only => [:new, :create, :destroy]
-  resources :microposts,    :only => [:create, :destroy]
   resources :relationships, :only => [:create, :destroy]
   
   root :to => "pages#home"
@@ -18,6 +17,8 @@ SampleApp::Application.routes.draw do
   match '/signup',  :to => 'users#new'
   match '/signin',  :to => 'sessions#new'
   match '/signout', :to => 'sessions#destroy'
+  match '/post_micropost', :to => 'microposts#post'
+  match '/sessions/save_oauth_token', :to => 'sessions#save_oauth_token'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

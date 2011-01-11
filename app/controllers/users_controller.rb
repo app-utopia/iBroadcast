@@ -10,7 +10,6 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
-    @microposts = @user.microposts.paginate(:page => params[:page])
     @title = @user.name
   end
 
@@ -37,13 +36,25 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if @user.save
       sign_in @user
-      redirect_to @user, :flash => { :success => "Welcome to the Sample App!" }
+      @consumer=OAuth::Consumer.new( "1496205680","065485c1a08e2e18970bd14becaf2aee", {
+          :site=>"http://api.t.sina.com.cn",
+          :scheme => :header,
+          :http_method => :post,
+          :request_token_path => "/oauth/request_token",
+          :access_token_path  => "/oauth/access_token",
+          :authorize_path  => "/oauth/authorize"
+
+      })
+
+      @request_token = @consumer.get_request_token
+      session[:request_token] = @request_token
+      redirect_to @request_token.authorize_url(:oauth_callback => "http://localhost:3000/sessions/save_oauth_token?id=#{@user.id}")
     else
       @title = "Sign up"
       render 'new'
     end
   end
-  
+
   def edit
     @title = "Edit user"
   end

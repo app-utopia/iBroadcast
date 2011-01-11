@@ -1,9 +1,13 @@
-<%= form_for(@micropost) do |f| %>
-  <%= render 'shared/error_messages', :object => f.object %>
+<%= form_tag post_micropost_path do %>
   <div class="field">
-    <%= f.text_area :content %>
+    <%= text_area_tag :content %>
   </div>
   <div class="actions">
-    <%= f.submit "Submit" %>
+  <% if signed_in? %>
+    <%= submit_tag "Submit"%>
+  <% else %>
+    <%= submit_tag "Submit", :disabled=>true %>
+  <% end %>
   </div>
 <% end %>
+

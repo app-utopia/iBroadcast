@@ -21,4 +21,15 @@ class SessionsController < ApplicationController
     sign_out
     redirect_to root_path
   end
+
+  def save_oauth_token
+    @access_token = session[:request_token].get_access_token(:oauth_verifier => params[:oauth_verifier])
+    @key = OauthKey.new
+    @key.user_id = current_user.id
+    @key.target = "Sina Weibo"
+    @key.token = @access_token.token
+    @key.secret = @access_token.secret
+    @key.save
+    redirect_to root_path
+  end
 end

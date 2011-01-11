@@ -10,16 +10,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100831012055) do
+ActiveRecord::Schema.define(:version => 20110111140231) do
 
-  create_table "microposts", :force => true do |t|
-    t.string   "content"
+  create_table "oauth_keys", :force => true do |t|
     t.integer  "user_id"
+    t.string   "target"
+    t.string   "token"
+    t.string   "secret"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "microposts", ["user_id"], :name => "index_microposts_on_user_id"
 
   create_table "relationships", :force => true do |t|
     t.integer  "follower_id"
